@@ -1,12 +1,8 @@
 const mongoose = require("mongoose");
 
 const UsersSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-
-  lastName: {
+ 
+  name: {
     type: String,
     required: true,
   },
@@ -14,19 +10,52 @@ const UsersSchema = new mongoose.Schema({
     type: String,
     
   },
+
+  socialUsernames: {
+    type: Array,
+    
+  },
+  phoneNumber: {
+    type: String,
+    
+  },
+  verify: {
+    type: String,
+    
+  },
+  collections: {
+    type: Array,
+    
+  },
+  artWorks: {
+    type: Array,
+    
+  },
+  verification:{
+type:Array
+  },
+ 
+  trader: {
+    type: String,
+    
+  },
   condition: {
     type: String,
     
   },
+  kyc: {
+    type: String,
+    
+  },
+  username: {
+    type: String,
+    
+  },
+
   email: {
     type: String,
     required: true,
     unique: true,
-  },
-  
-  kyc: {
-    type: String,
-    
   },
   referralCode:{
     type:String,
@@ -44,10 +73,7 @@ const UsersSchema = new mongoose.Schema({
     type:String,
   },
  
-  country: {
-    type: String,
-    required: true,
-  },
+ 
   password: {
     type: String,
     required: true,

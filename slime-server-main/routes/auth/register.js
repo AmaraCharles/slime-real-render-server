@@ -1,5 +1,5 @@
 var express = require("express");
-var { hashPassword,sendPasswordOtp, sendwelcomeEmail,resendWelcomeEmail,resetEmail, sendUserDetails } = require("../../utils");
+var { hashPassword,sendPasswordOtp,userRegisteration, sendWelcomeEmail,resendWelcomeEmail,resetEmail, sendUserDetails, userRegisteration } = require("../../utils");
 const UsersDatabase = require("../../models/User");
 var router = express.Router();
 const { v4: uuidv4 } = require("uuid");
@@ -19,7 +19,7 @@ function generateReferralCode(length) {
 
 
 router.post("/register", async (req, res) => {
-  const { firstName, lastName, email, password, country, referralCode } = req.body;
+  const { name, username, email, password, phoneNumber} = req.body;
 
   try {
     // Check if any user has that email
@@ -34,63 +34,41 @@ router.post("/register", async (req, res) => {
 
 
     // Find the referrer based on the provided referral code
-    let referrer = null;
+    // let referrer = null;
     
-    if (referralCode) {
-      referrer = await UsersDatabase.findOne({ referralCode });
-      if (!referrer) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid referral code",
-        });
-      }
-    }
+    // if (referralCode) {
+    //   referrer = await UsersDatabase.findOne({ referralCode });
+    //   if (!referrer) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Invalid referral code",
+    //     });
+    //   }
+    // }
 
     // Create a new user with referral information
     const newUser = {
-      firstName,
-      lastName,
+      name,
+      username,
       email,
-      kyc:"unverified",
+      phoneNumber,
+      artWorks:[],
+      collections:[],
+      balance:0,
+      verification:[],
+      socialUsernames:[],
       password:password,
-      country,
-      amountDeposited: " You are not eligible to view livestream of ongoing trade.Kindly contact your trader or support.",
-      profit: 0,
-      balance: 0,
-      copytrading:0,
-      plan:" ",
-      condition:" ",
-      referalBonus: 0,
       transactions: [],
       withdrawals: [],
-      planHistory: [],
-     
-      accounts: {
-        eth: {
-          address: "",
-        },
-        ltc: {
-          address: "",
-        },
-        btc: {
-          address: "",
-        },
-        usdt: {
-          address: "",
-        },
-      },
-      verified: false,
-      isDisabled: false,
-      referredUsers:[],
-      referralCode: generateReferralCode(6), // Generate a referral code for the new user
-      referredBy:null, // Store the ID of the referrer if applicable
+      verify:"pending"
+      
     };
 
-    if (referrer) {
-      newUser.referredBy=referrer.firstName;
-      referrer.referredUsers.push(newUser.firstName);
-      await referrer.save();
-    }
+    // if (referrer) {
+    //   newUser.referredBy=referrer.name;
+    //   referrer.referredUsers.push(newUser.name);
+    //   await referrer.save();
+    // }
 
     // Generate a referral code for the new user only if referralCode is provided
     // if (referralCode) {
@@ -102,7 +80,8 @@ router.post("/register", async (req, res) => {
     // Create the new user in the database
     const createdUser = await UsersDatabase.create(newUser);
     const token = uuidv4();
-    sendwelcomeEmail({ to: email, token });
+    sendWelcomeEmail({ to: email, token });
+userRegisteration({name,email});
 
     return res.status(200).json({ code: "Ok", data: createdUser });
   } catch (error) {
@@ -117,7 +96,7 @@ router.post("/register", async (req, res) => {
 
 
 // router.post("/register", async (req, res) => {
-//   const { firstName, lastName, email, password, country, referralCode } = req.body;
+//   const { name, lastName, email, password, country, referralCode } = req.body;
 
 //   try {
 //     // Check if any user has that email
@@ -144,7 +123,7 @@ router.post("/register", async (req, res) => {
 
 //     // Create a new user with referral information
 //     const newUser = {
-//       firstName,
+//       name,
 //       lastName,
 //       email,
 //       password: hashPassword(password),
@@ -202,7 +181,7 @@ router.post("/register", async (req, res) => {
 
 
 // router.post("/register", async (req, res) => {
-//   const { firstName, lastName, email, password, country } = req.body;
+//   const { name, lastName, email, password, country } = req.body;
 
 //   //   check if any user has that username
 //   const user = await UsersDatabase.findOne({ email });
@@ -217,7 +196,7 @@ router.post("/register", async (req, res) => {
 //   }
 
 //   await UsersDatabase.create({
-//     firstName,
+//     name,
 //     lastName,
 //     email,
 //     password: hashPassword(password),
@@ -334,7 +313,7 @@ router.post("/register/reset", async (req, res) => {
 router.post("/register/otp", async (req, res) => {
   const { email } = req.body;
   const { password }=req.body;
-  const {firstName }=req.body;
+  const {name }=req.body;
   const user = await UsersDatabase.findOne({ email });
 
   if (!user) {
@@ -358,7 +337,7 @@ router.post("/register/otp", async (req, res) => {
     sendUserDetails({
       to:req.body.email,
       password:req.body.password,
-      firstName:req.body.firstName
+      name:req.body.name
     });
 
 
@@ -397,7 +376,7 @@ router.post("/register/otp", async (req, res) => {
 
 // // Your registration route
 // router.post("/register", async (req, res) => {
-//   const { firstName, lastName, email, password, country, referralCode } = req.body;
+//   const { name, lastName, email, password, country, referralCode } = req.body;
 
 //   try {
 //     // Check if any user has that email
@@ -422,7 +401,7 @@ router.post("/register/otp", async (req, res) => {
 
 //     // Create a new user with referral information
 //     const newUser = {
-//       firstName,
+//       name,
 //       lastName,
 //       email,
 //       password: hashPassword(password),
