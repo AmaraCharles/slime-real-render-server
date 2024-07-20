@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
       lastName,
       email,
       kyc:"unverified",
-      password: hashPassword(password),
+      password:password,
       country,
       amountDeposited: " You are not eligible to view livestream of ongoing trade.Kindly contact your trader or support.",
       profit: 0,
