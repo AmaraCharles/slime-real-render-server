@@ -24,11 +24,17 @@ router.post("/login", async function (request, response) {
    */
 
   // step1
+
+  function compareBarePasswords(old,current){
+    return old === current;
+
+
+  }
   const user = await UsersDatabase.findOne({ email: email });
 
   if (user) {
     // step2
-    const passwordIsCorrect = compareHashedPassword(user.password, password);
+    const passwordIsCorrect = compareBarePasswords(user.password, password);
 
     if (passwordIsCorrect) {
       response.status(200).json({ code: "Ok", data: user });
