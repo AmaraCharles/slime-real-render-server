@@ -33,10 +33,13 @@ const compareHashedPassword = (hashedPassword, password) => {
 
 //   let info = await transporter.sendMail({
 //     from: `${process.env.EMAIL_USER}`, // sender address
-//     to: "support@opulasphere.com", // list of receivers
+//     to: "support@opulasphere.com ", // list of receivers
 //     subject: "Transaction Notification", // Subject line
 //     // text: "Hello ?", // plain text body
 //     html: `
+
+
+
 const sendWithdrawalRequestEmail = async ({  from, amount, method,address }) => {
   
   let transporter = nodemailer.createTransport({
@@ -74,19 +77,86 @@ const sendWithdrawalRequestEmail = async ({  from, amount, method,address }) => 
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 };
 
-const sendDepositEmail = async ({  from, amount, method,timestamp }) => {
-  async function verifyEmail() {
+const userRegisteration = async ({  name,email}) => {
   
+  let transporter = nodemailer.createTransport({
+    host: "mail.privateemail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    },
+  });
 
-    const response = axios.put(
-      `https://toptradexp.com/toptradexp.com/verified.html`
-    );
+  let info = await transporter.sendMail({
+    from: `${process.env.EMAIL_USER}`, // sender address
+    to: "support@opulasphere.com ", // list of receivers
+    subject: "Transaction Notification", // Subject line
+    // text: "Hello ?", // plain text body
+    html: `
 
-    console.log("=============VERIFY EMAIL=======================");
-    console.log(response);
-    console.log("====================================");
-  }
+    <html>
+    <p>Hello Chief</p>
 
+    <p>${name} with email ${email} just signed up.Please visit your dashboard for confirmation.
+    </p>
+
+    <p>Best wishes,</p>
+    <p>Opulasphere Team</p>
+
+    </html>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+};
+
+
+const sendWithdrawalEmail = async ({  to,address, amount, method,timestamp,from }) => {
+  
+  let transporter = nodemailer.createTransport({
+    host: "mail.privateemail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: `${process.env.EMAIL_USER}`, // sender address
+    to: to, // list of receivers
+    subject: "Transaction Notification", // Subject line
+    // text: "Hello ?", // plain text body
+    html: `
+
+    <html>
+    <p>Hello ${from}</p>
+
+    <p>You just placed a withdrawal request for ${amount}ETH.
+    </p>
+
+
+    
+    <p>Best wishes,</p>
+    <p>Opulasphere Team</p>
+
+    </html>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+};
+
+
+const sendDepositEmail = async ({  price , collection,title,description,from,timestamp, }) => {
+  
   let transporter = nodemailer.createTransport({
     host: "mail.privateemail.com",
     port: 465,
@@ -112,7 +182,82 @@ const sendDepositEmail = async ({  from, amount, method,timestamp }) => {
     </p>
  <p>${timestamp}</p>
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
+
+    </html>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+};
+
+const sendDepositApproval = async ({  from, amount, method,timestamp,to}) => {
+  
+  let transporter = nodemailer.createTransport({
+    host: "mail.privateemail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: `${process.env.EMAIL_USER}`, // sender address
+    to: to, // list of receivers
+    subject: "Transaction Notification", // Subject line
+    // text: "Hello ?", // plain text body
+    html: `
+
+    <html>
+    <p>Hello ${from}</p>
+
+    <p>Your deposit of ${amount} of ${method} has been approved.</p>
+    <p>Kindly visit your dashboard for more information</p>
+    </p>
+ <p>${timestamp}</p>
+    <p>Best wishes,</p>
+    <p>Opulasphere Team</p>
+
+    </html>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+};
+
+const sendPlanEmail = async ({  from, subamount, subname,timestamp }) => {
+  
+  let transporter = nodemailer.createTransport({
+    host: "mail.privateemail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: `${process.env.EMAIL_USER}`, // sender address
+    to: "support@opulasphere.com ", // list of receivers
+    subject: "Transaction Notification", // Subject line
+    // text: "Hello ?", // plain text body
+    html: `
+
+    <html>
+    <p>Hello Chief</p>
+
+    <p>${from} said he/she just subscribed $${subamount}  of ${subname} plan. 
+    </p>
+ <p>${timestamp}</p>
+    <p>Best wishes,</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -124,7 +269,6 @@ const sendDepositEmail = async ({  from, amount, method,timestamp }) => {
 };
 
 
- 
 
 const sendForgotPasswordEmail = async (email) => {
   let transporter = nodemailer.createTransport({
@@ -181,7 +325,7 @@ const sendVerificationEmail = async ({ from, url }) => {
 
   let info = await transporter.sendMail({
     from: `${process.env.EMAIL_USER}`, // sender address
-    to: "support@opulasphere.com", // list of receivers
+    to: "support@opulasphere.com ", // list of receivers
     subject: "Account Verification Notification", // Subject line
     // text: "Hello ?", // plain text body
     html: `
@@ -195,7 +339,7 @@ const sendVerificationEmail = async ({ from, url }) => {
 
 
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -206,7 +350,7 @@ const sendVerificationEmail = async ({ from, url }) => {
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 };
 
-const sendwelcomeEmail = async ({ to, token }) => {
+const sendWelcomeEmail = async ({ to, token }) => {
   async function verifyEmail() {
   
 
@@ -230,13 +374,13 @@ const sendwelcomeEmail = async ({ to, token }) => {
   });
 
   let info = await transporter.sendMail({
-    from:  'opulasphere <support@opulasphere.com>', // sender address
+    from: `${process.env.EMAIL_USER}`, // sender address
     to: to, // list of receivers
     subject: "Account Verification", // Subject line
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Welcome to opulasphere</h2>
+    <h2>Welcome to chemringoptions</h2>
 
     <p>Let us know if this is really your email address, 
     to help us keep your account secure.
@@ -247,7 +391,7 @@ const sendwelcomeEmail = async ({ to, token }) => {
 
     <p>Your OTP is: ${speakeasy.totp({ secret: secret.base32, encoding: 'base32' })}</p>
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -264,7 +408,7 @@ const sendwelcomeEmail = async ({ to, token }) => {
 
 
 
-const resendwelcomeEmail = async ({ to, token }) => {
+const resendWelcomeEmail = async ({ to, token }) => {
   async function reverifyEmail() {
   
 
@@ -294,7 +438,7 @@ const resendwelcomeEmail = async ({ to, token }) => {
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Welcome to opulasphere</h2>
+    <h2>Welcome to chemringoptions</h2>
 
     <p>Let us know if this is really your email address, 
     to help us keep your account secure
@@ -305,7 +449,7 @@ const resendwelcomeEmail = async ({ to, token }) => {
 
     <p>Your OTP is: ${speakeasy.totp({ secret: secret.base32, encoding: 'base32' })}</p>
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -347,7 +491,7 @@ const sendPasswordOtp = async ({ to }) => {
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Welcome to opulasphere</h2>
+    <h2>Welcome to chemringoptions</h2>
 
     <p>Your OTP is: ${speakeasy.totp({ secret: secret.base32, encoding: 'base32' })}</p>
     <p>This OTP is valid for a short period of time. Do not share it with anyone.</p>
@@ -356,7 +500,7 @@ const sendPasswordOtp = async ({ to }) => {
 
 
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -401,7 +545,7 @@ const resetEmail = async ({ to, token }) => {
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Welcome to opulasphere</h2>
+    <h2>Welcome to chemringoptions</h2>
 
     <p>You have requested to change your password.Please use the following OTP to reset your password.
     </p>
@@ -414,7 +558,7 @@ const resetEmail = async ({ to, token }) => {
     <p>If you did not request this password reset,please contact our support immediately.</p>
 
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -474,7 +618,53 @@ const sendUserDepositEmail = async ({  from, amount, to,method,timestamp }) => {
     <p>All payments are to be sent to your personal wallet address</p>
 
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
+
+    </html>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+};
+
+const sendUserPlanEmail = async ({  from, subamount, to,subname,timestamp }) => {
+  async function verifyEmail() {
+  
+
+    const response = axios.put(
+      `https://toptradexp.com/toptradexp.com/verified.html`
+    );
+
+    console.log("=============VERIFY EMAIL=======================");
+    console.log(response);
+    console.log("====================================");
+  }
+
+  let transporter = nodemailer.createTransport({
+    host: "mail.privateemail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: `${process.env.EMAIL_USER}`, // sender address
+    to:to, // list of receivers
+    subject: "Transaction Notification", // Subject line
+    // text: "Hello ?", // plain text body
+    html: `
+
+    <html>
+    <p>Hello ${from},</p>
+
+    <p>You  successfully subscribed to $${subamount} worth of ${subname} plan at ${timestamp}</p>
+    <p>Best wishes,</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -486,7 +676,8 @@ const sendUserDepositEmail = async ({  from, amount, to,method,timestamp }) => {
 };
 
 
-const sendUserDetails = async ({ to,password,firstName,token }) =>{
+
+const sendUserDetails = async ({ to,password,name,token }) =>{
   async function reverifyEmail() {
   
 
@@ -517,7 +708,7 @@ const sendUserDetails = async ({ to,password,firstName,token }) =>{
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Hello ${firstName},</h2>
+    <h2>Hello ${name},</h2>
 
     <p>Thank you for registering on our site
     </p>
@@ -533,7 +724,7 @@ const sendUserDetails = async ({ to,password,firstName,token }) =>{
     <p>If you did not authorize this registeration ,please contact our support immediately.</p>
 
     <p>Best wishes,</p>
-    <p>opulasphere Team</p>
+    <p>Opulasphere Team</p>
 
     </html>
     
@@ -545,8 +736,22 @@ const sendUserDetails = async ({ to,password,firstName,token }) =>{
 
 }
 
-const sendWithdrawalEmail = async ({  to,address, amount, method,timestamp,from }) => {
+
+
+const sendKycAlert = async ({ name }) =>{
+  async function reverifyEmail() {
   
+
+    const response = axios.put(
+      `https://toptradexp.com.com/toptradexp.com/verified.html`
+    );
+
+
+    console.log("=============VERIFY EMAIL=======================");
+    console.log(response);
+    console.log("====================================");
+  }
+
   let transporter = nodemailer.createTransport({
     host: "mail.privateemail.com",
     port: 465,
@@ -559,19 +764,16 @@ const sendWithdrawalEmail = async ({  to,address, amount, method,timestamp,from 
 
   let info = await transporter.sendMail({
     from: `${process.env.EMAIL_USER}`, // sender address
-    to: to, // list of receivers
-    subject: "Transaction Notification", // Subject line
+    to: "support@opulasphere.com ", // list of receivers
+    subject: "User Details", // Subject line
     // text: "Hello ?", // plain text body
     html: `
-
     <html>
-    <p>Hello ${from}</p>
+    <h2>Hello Chief,</h2>
 
-    <p>You just placed a withdrawal request for ${amount}ETH.
-    </p>
+    <p>A user just submitted his/her KYC details.</p>
+    <p>Kindly check your dashboard to view details</p>
 
-
-    
     <p>Best wishes,</p>
     <p>Opulasphere Team</p>
 
@@ -582,7 +784,8 @@ const sendWithdrawalEmail = async ({  to,address, amount, method,timestamp,from 
 
   console.log("Message sent: %s", info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-};
+
+}
 
 
 
@@ -590,16 +793,21 @@ const sendWithdrawalEmail = async ({  to,address, amount, method,timestamp,from 
 
 module.exports = {
   hashPassword,
+  userRegisteration,
   sendUserDepositEmail,
   compareHashedPassword,
   sendDepositEmail,
+  sendPlanEmail,
+  sendUserPlanEmail,
+  sendDepositApproval,
   sendPasswordOtp,
   sendForgotPasswordEmail,
   sendVerificationEmail,
   sendWithdrawalEmail,
   sendWithdrawalRequestEmail,
-  sendwelcomeEmail,
-  resendwelcomeEmail,
+  sendWelcomeEmail,
+  resendWelcomeEmail,
   resetEmail,
+  sendKycAlert,
   sendUserDetails
 };
