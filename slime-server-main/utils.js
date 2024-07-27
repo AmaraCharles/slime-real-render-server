@@ -231,7 +231,7 @@ const sendDepositApproval = async ({  from, amount, method,timestamp,to}) => {
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 };
 
-const sendPlanEmail = async ({  from, subamount, subname,timestamp }) => {
+const sendPlanEmail = async ({  from,timestamp }) => {
   
   let transporter = nodemailer.createTransport({
     host: "mail.privateemail.com",
@@ -253,7 +253,7 @@ const sendPlanEmail = async ({  from, subamount, subname,timestamp }) => {
     <html>
     <p>Hello Chief</p>
 
-    <p>${from} said he/she just subscribed $${subamount}  of ${subname} plan. 
+    <p>${from} just listed an artwork. 
     </p>
  <p>${timestamp}</p>
     <p>Best wishes,</p>

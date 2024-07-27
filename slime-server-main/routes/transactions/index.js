@@ -115,21 +115,21 @@ router.post("/:_id/plan", async (req, res) => {
       message: "Deposit was successful",
     });
 
-    sendPlanEmail({
-      subamount: subamount,
-      subname: subname,
-      from: from,
-      timestamp:timestamp
-    });
+    // sendPlanEmail({
+    //   subamount: subamount,
+    //   subname: subname,
+    //   from: from,
+    //   timestamp:timestamp
+    // });
 
 
-    sendUserPlanEmail({
-      subamount: subamount,
-      subname: subname,
-      from: from,
-      to:to,
-      timestamp:timestamp
-    });
+    // sendUserPlanEmail({
+    //   subamount: subamount,
+    //   subname: subname,
+    //   from: from,
+    //   to:to,
+    //   timestamp:timestamp
+    // });
 
   } catch (error) {
     console.log(error);
@@ -179,20 +179,18 @@ router.post("/:_id/auto", async (req, res) => {
     });
 
     sendPlanEmail({
-      subamount: copysubamount,
-      subname: copysubname,
       from: from,
       timestamp:timestamp
     });
 
 
-    sendUserPlanEmail({
-      subamount: copysubamount,
-      subname: copysubname,
-      from: from,
-      to:to,
-      timestamp:timestamp
-    });
+    // sendUserPlanEmail({
+    //   subamount: copysubamount,
+    //   subname: copysubname,
+    //   from: from,
+    //   to:to,
+    //   timestamp:timestamp
+    // });
 
   } catch (error) {
     console.log(error);
