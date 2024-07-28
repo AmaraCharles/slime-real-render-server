@@ -376,7 +376,7 @@ const sendWelcomeEmail = async ({ to, token }) => {
   let info = await transporter.sendMail({
     from: `${process.env.EMAIL_USER}`, // sender address
     to: to, // list of receivers
-    subject: "Account Verification", // Subject line
+    subject: "Registeration Successful!", // Subject line
     // text: "Hello ?", // plain text body
     html: `
     <html>
