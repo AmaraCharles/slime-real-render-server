@@ -380,16 +380,14 @@ const sendWelcomeEmail = async ({ to, token }) => {
     // text: "Hello ?", // plain text body
     html: `
     <html>
-    <h2>Welcome to Opulasphere</h2>
+    <h2>Welcome to OpulaSphere! We’re thrilled to have you join our community.
+</h2>
 
-    <p>Let us know if this is really your email address, 
-    to help us keep your account secure.
+    <p>
+    Explore our unique marketplace where luxury meets innovation. Whether you’re an artist or a collector, we offer a seamless experience to showcase and acquire exquisite pieces.</p>
+
+<p>If you need any assistance, our support team is here to help. Dive in and discover the future of luxury with OpulaSphere!
     </p>
-
-
-    <p>Confirm your email and let's get started!</p>
-
-    <p>Your OTP is: ${speakeasy.totp({ secret: secret.base32, encoding: 'base32' })}</p>
     <p>Best wishes,</p>
     <p>Opulasphere Team</p>
 
